@@ -38,7 +38,6 @@ jobs:
           template: ./adf-demo-dev-20250820/ARMTemplateForFactory.json
           parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json
           deploymentName: ADF-Test-Deployment
-          parametersOverrides: factoryName=adf-demo-test-20250820
 
       - name: Deploy to PROD
         if: github.ref == 'refs/heads/adf_publish'
@@ -49,4 +48,3 @@ jobs:
           template: ./adf-demo-dev-20250820/ARMTemplateForFactory.json
           parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json
           deploymentName: ADF-Prod-Deployment
-          parametersOverrides: factoryName=adf-demo-prod-20250820
