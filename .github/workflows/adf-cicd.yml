@@ -36,7 +36,7 @@ jobs:
           subscriptionId: 3579fc87-407f-4598-be14-4da93d0f9909
           resourceGroupName: rg-adf-demo
           template: ./adf-demo-dev-20250820/ARMTemplateForFactory.json
-          parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json
+          parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json factoryName=adf-demo-test-20250820
           deploymentName: ADF-Test-Deployment
 
       - name: Deploy to PROD
@@ -46,5 +46,5 @@ jobs:
           subscriptionId: 3579fc87-407f-4598-be14-4da93d0f9909
           resourceGroupName: rg-adf-demo
           template: ./adf-demo-dev-20250820/ARMTemplateForFactory.json
-          parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json
+          parameters: ./adf-demo-dev-20250820/ARMTemplateParametersForFactory.json factoryName=adf-demo-prod-20250820
           deploymentName: ADF-Prod-Deployment
