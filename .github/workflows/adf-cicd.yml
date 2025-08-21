@@ -1,0 +1,50 @@
+﻿name: ADF CI/CD
+
+on:
+  push:
+    branches:
+      - adf_publish
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to DEV
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: <YOUR-DEV-RG>
+          template: ./adf_publish/ARMTemplateForFactory.json
+          parameters: ./adf_publish/ARMTemplateParametersForFactory.json
+          deploymentName: ADF-Dev-Deployment
+          parametersOverrides: factoryName=adf-demo-dev-20250820
+
+      - name: Deploy to TEST
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: <YOUR-TEST-RG>
+          template: ./adf_publish/ARMTemplateForFactory.json
+          parameters: ./adf_publish/ARMTemplateParametersForFactory.json
+          deploymentName: ADF-Test-Deployment
+          parametersOverrides: factoryName=adf-demo-test-20250820
+
+      - name: Deploy to PROD
+        if: github.ref == 'refs/heads/adf_publish'
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: <YOUR-PROD-RG>
+          template: ./adf_publish/ARMTemplateForFactory.json
+          parameters: ./adf_publish/ARMTemplateParametersForFactory.json
+          deploymentName: ADF-Prod-Deployment
+          parametersOverrides: factoryName=adf-demo-prod-20250820
