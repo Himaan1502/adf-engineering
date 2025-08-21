@@ -16,13 +16,25 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: |
+            {
+              "clientId": "c4f3273c-706c-470c-ad70-0f382310a0b0",
+              "clientSecret": "Mi.8Q~1sSVM02oGcLhrbCUTzQ.WDTnzOhu19Wa.X",
+              "subscriptionId": "3579fc87-407f-4598-be14-4da93d0f9909",
+              "tenantId": "f4635fec-1fd5-4ed2-83da-c6e60e07125a",
+              "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+              "resourceManagerEndpointUrl": "https://management.azure.com/",
+              "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+              "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+              "galleryEndpointUrl": "https://gallery.azure.com/",
+              "managementEndpointUrl": "https://management.core.windows.net/"
+            }
 
       - name: Deploy to DEV
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: <YOUR-DEV-RG>
+          subscriptionId: 3579fc87-407f-4598-be14-4da93d0f9909
+          resourceGroupName: rg-adf-demo
           template: ./adf_publish/ARMTemplateForFactory.json
           parameters: ./adf_publish/ARMTemplateParametersForFactory.json
           deploymentName: ADF-Dev-Deployment
@@ -31,8 +43,8 @@ jobs:
       - name: Deploy to TEST
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: <YOUR-TEST-RG>
+          subscriptionId: 3579fc87-407f-4598-be14-4da93d0f9909
+          resourceGroupName: rg-adf-demo
           template: ./adf_publish/ARMTemplateForFactory.json
           parameters: ./adf_publish/ARMTemplateParametersForFactory.json
           deploymentName: ADF-Test-Deployment
@@ -42,8 +54,8 @@ jobs:
         if: github.ref == 'refs/heads/adf_publish'
         uses: azure/arm-deploy@v1
         with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: <YOUR-PROD-RG>
+          subscriptionId: 3579fc87-407f-4598-be14-4da93d0f9909
+          resourceGroupName: rg-adf-demo
           template: ./adf_publish/ARMTemplateForFactory.json
           parameters: ./adf_publish/ARMTemplateParametersForFactory.json
           deploymentName: ADF-Prod-Deployment
